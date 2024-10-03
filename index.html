@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Lucro Diário</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #1E1E1E;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1db954;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: none;
+            background-color: #333333;
+            color: #ffffff;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1db954;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #14833b;
+        }
+
+        .result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #1db954;
+        }
+
+        .clear-btn {
+            background-color: #ff4c4c;
+        }
+
+        .clear-btn:hover {
+            background-color: #d84343;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Calculadora de Lucro Diário</h1>
+
+        <label for="parcelaCarro">Parcela do carro (mensal):</label>
+        <input type="number" id="parcelaCarro" placeholder="Insira o valor da parcela do carro">
+
+        <label for="seguroCarro">Seguro do carro (mensal):</label>
+        <input type="number" id="seguroCarro" placeholder="Insira o valor do seguro do carro">
+
+        <label for="custoAlmoco">Custo almoço (mensal):</label>
+        <input type="number" id="custoAlmoco" placeholder="Insira o valor do custo do almoço">
+
+        <label for="lucroDesejado">Lucro desejado (mensal):</label>
+        <input type="number" id="lucroDesejado" placeholder="Insira o lucro desejado">
+
+        <label for="consumoCarro">Consumo do carro (km/L):</label>
+        <input type="number" id="consumoCarro" placeholder="Insira o consumo do carro em km/L">
+
+        <label for="precoCombustivel">Preço do combustível (R$/litro):</label>
+        <input type="number" id="precoCombustivel" placeholder="Insira o preço do combustível por litro">
+
+        <label for="kmRodados">Quilômetros rodados por dia:</label>
+        <input type="number" id="kmRodados" placeholder="Insira a quantidade de km rodados por dia">
+
+        <label for="diasTrabalhados">Dias trabalhados (mensal):</label>
+        <input type="number" id="diasTrabalhados" placeholder="Insira os dias trabalhados no mês">
+
+        <button onclick="calcular()">Calcular</button>
+        <button class="clear-btn" onclick="limpar()">Limpar</button>
+
+        <div class="result" id="resultado"></div>
+    </div>
+
+    <script>
+        function calcular() {
+            // Coletando os valores dos inputs
+            let parcelaCarro = parseFloat(document.getElementById('parcelaCarro').value) || 0;
+            let seguroCarro = parseFloat(document.getElementById('seguroCarro').value) || 0;
+            let custoAlmoco = parseFloat(document.getElementById('custoAlmoco').value) || 0;
+            let lucroDesejado = parseFloat(document.getElementById('lucroDesejado').value) || 0;
+            let consumoCarro = parseFloat(document.getElementById('consumoCarro').value) || 0;
+            let precoCombustivel = parseFloat(document.getElementById('precoCombustivel').value) || 0;
+            let kmRodados = parseFloat(document.getElementById('kmRodados').value) || 0;
+            let diasTrabalhados = parseInt(document.getElementById('diasTrabalhados').value) || 0;
+
+            // Verificando se os valores essenciais foram preenchidos
+            if (consumoCarro === 0 || precoCombustivel === 0 || kmRodados === 0 || diasTrabalhados === 0) {
+                alert('Preencha todos os campos corretamente.');
+                return;
+            }
+
+            // Calculando o custo com combustível por dia
+            let combustivelPorDia = (kmRodados / consumoCarro) * precoCombustivel;
+
+            // Calculando o custo total mensal (parcela do carro, seguro, almoço e lucro desejado)
+            let custoMensal = parcelaCarro + seguroCarro + custoAlmoco + lucroDesejado;
+
+            // Calculando o valor diário necessário
+            let custoTotalCombustivelMensal = combustivelPorDia * diasTrabalhados;
+            let valorPorDia = ((custoMensal + custoTotalCombustivelMensal) / diasTrabalhados).toFixed(2);
+
+            // Exibindo o resultado
+            document.getElementById('resultado').innerHTML = `Você precisa fazer R$ ${valorPorDia} por dia.`;
+        }
+
+        function limpar() {
+            // Limpando os inputs
+            document.getElementById('parcelaCarro').value = '';
+            document.getElementById('seguroCarro').value = '';
+            document.getElementById('custoAlmoco').value = '';
+            document.getElementById('lucroDesejado').value = '';
+            document.getElementById('consumoCarro').value = '';
+            document.getElementById('precoCombustivel').value = '';
+            document.getElementById('kmRodados').value = '';
+            document.getElementById('diasTrabalhados').value = '';
+
+            // Limpando o resultado
+            document.getElementById('resultado').innerHTML = '';
+        }
+    </script>
+
+</body>
+</html>
